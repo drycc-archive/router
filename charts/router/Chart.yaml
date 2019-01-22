@@ -1,7 +1,7 @@
 name: router
-home: https://github.com/teamhephy/router
+home: https://github.com/drycc/router
 version: <Will be populated by the ci before publishing the chart>
-description: Edge router for Deis Workflow.
+description: Edge router for Drycc Workflow.
 maintainers:
-  - name: Deis Team
-    email: engineering@deis.com
+  - name: Drycc Team
+    email: engineering@drycc.com

@@ -1,4 +1,4 @@
-org: "deisci"
+org: "drycc"
 pull_policy: "Always"
 docker_tag: canary
 platform_domain: ""
@@ -8,7 +8,7 @@ dhparam: ""
 # requests_cpu: "100m"
 # requests_memory: "50Mi"
 
-# Any custom router annotations(https://github.com/teamhephy/router#annotations)
+# Any custom router annotations(https://github.com/drycc/router#annotations)
 # which need to be applied can be specified as key-value pairs under "deployment_annotations"
 #deployment_annotations:
   #<example-key>: <example-value>
@@ -26,11 +26,11 @@ host_port:
 # service_type: LoadBalancer
 
 global:
-  # Experimental feature to toggle using kubernetes ingress instead of the Deis router.
+  # Experimental feature to toggle using kubernetes ingress instead of the Drycc router.
   #
   # Valid values are:
-  # - true: The Deis router will NOT be deployed. Inherently workflow will not be usable until a Kubernetes ingress controller is installed.
-  # - false: The default mode, and the default behavior of Deis workflow.
+  # - true: The Drycc router will NOT be deployed. Inherently workflow will not be usable until a Kubernetes ingress controller is installed.
+  # - false: The default mode, and the default behavior of Drycc workflow.
   experimental_native_ingress: false
   # Role-Based Access Control for Kubernetes >= 1.5
   use_rbac: false

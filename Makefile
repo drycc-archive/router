@@ -1,18 +1,18 @@
 include includes.mk
 
 SHORT_NAME := router
-DEIS_REGISTRY ?= ${DEV_REGISTRY}
-IMAGE_PREFIX ?= deis
+DRYCC_REGISTRY ?= ${DEV_REGISTRY}
+IMAGE_PREFIX ?= drycc
 
 include versioning.mk
 
 SHELL_SCRIPTS = $(wildcard rootfs/bin/*) rootfs/opt/router/sbin/boot
 
-REPO_PATH := github.com/deis/${SHORT_NAME}
+REPO_PATH := github.com/drycc/${SHORT_NAME}
 
 # The following variables describe the containerized development environment
 # and other build options
-DEV_ENV_IMAGE := quay.io/deis/go-dev:v0.22.0
+DEV_ENV_IMAGE := quay.io/drycc/go-dev:v0.22.0
 DEV_ENV_WORK_DIR := /go/src/${REPO_PATH}
 DEV_ENV_CMD := docker run --rm -v ${CURDIR}:${DEV_ENV_WORK_DIR} -w ${DEV_ENV_WORK_DIR} ${DEV_ENV_IMAGE}
 DEV_ENV_CMD_INT := docker run -it --rm -v ${CURDIR}:${DEV_ENV_WORK_DIR} -w ${DEV_ENV_WORK_DIR} ${DEV_ENV_IMAGE}
@@ -29,8 +29,8 @@ UPX := upx -9 --mono --no-progress
 
 # The following variables describe k8s manifests we may wish to deploy
 # to a running k8s cluster in the course of development.
-DEPLOYMENT := manifests/deis-${SHORT_NAME}-deployment.yaml
-SVC := manifests/deis-${SHORT_NAME}-service.yaml
+DEPLOYMENT := manifests/drycc-${SHORT_NAME}-deployment.yaml
+SVC := manifests/drycc-${SHORT_NAME}-service.yaml
 
 # Allow developers to step into the containerized development environment
 dev: check-docker
@@ -57,7 +57,7 @@ binary-build:
 	${UPX} ${BINDIR}/${SHORT_NAME}
 
 deploy: check-kubectl docker-build docker-push
-	kubectl --namespace=deis patch deployment deis-${SHORT_NAME} \
+	kubectl --namespace=drycc patch deployment drycc-${SHORT_NAME} \
 		--type='json' \
 		-p='[ \
 			{"op": "replace", "path": "/spec/strategy", "value":{"type":"Recreate"}}, \

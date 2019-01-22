@@ -2,16 +2,16 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: deis-router
+  name: drycc-router
   labels:
-    heritage: deis
+    heritage: drycc
   annotations:
-    component.deis.io/version: {{ .Values.docker_tag }}
+    component.drycc.cc/version: {{ .Values.docker_tag }}
 {{- range $key, $value := .Values.deployment_annotations }}
     {{ $key }}: {{ quote $value }}
 {{- end }}
 {{- if not (empty .Values.platform_domain) }}
-    router.deis.io/nginx.platformDomain: {{ .Values.platform_domain }}
+    router.drycc.cc/nginx.platformDomain: {{ .Values.platform_domain }}
 {{- end }}
 spec:
   replicas: 1
@@ -22,15 +22,15 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      app: deis-router
+      app: drycc-router
   template:
     metadata:
       labels:
-        app: deis-router
+        app: drycc-router
     spec:
-      serviceAccount: deis-router
+      serviceAccount: drycc-router
       containers:
-      - name: deis-router
+      - name: drycc-router
         image: quay.io/{{.Values.org}}/router:{{.Values.docker_tag}}
         imagePullPolicy: {{.Values.pull_policy}}
 {{- if or (.Values.limits_cpu) (.Values.limits_memory) (.Values.requests_cpu) (.Values.requests_memory)}}

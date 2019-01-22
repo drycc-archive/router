@@ -3,13 +3,12 @@ package model
 import (
 	"bytes"
 	"encoding/gob"
-	goerrors "errors"
 	"fmt"
 	"log"
 	"strings"
 
-	"github.com/deis/router/utils"
-	modelerUtility "github.com/deis/router/utils/modeler"
+	"github.com/drycc/router/utils"
+	modelerUtility "github.com/drycc/router/utils/modeler"
 	"k8s.io/client-go/1.4/kubernetes"
 	"k8s.io/client-go/1.4/pkg/api"
 	"k8s.io/client-go/1.4/pkg/api/errors"
@@ -21,7 +20,7 @@ import (
 )
 
 const (
-	prefix               string = "router.deis.io"
+	prefix               string = "router.drycc.cc"
 	modelerFieldTag      string = "key"
 	modelerConstraintTag string = "constraint"
 )
@@ -159,6 +158,7 @@ type AppConfig struct {
 	Locations      []*Location
 }
 
+// Location is a App and Path
 type Location struct {
 	App  *AppConfig
 	Path string
@@ -172,13 +172,13 @@ func newAppConfig(routerConfig *RouterConfig) (*AppConfig, error) {
 	return &AppConfig{
 		ConnectTimeout: "30s",
 		TCPTimeout:     routerConfig.DefaultTimeout,
-		Certificates:   make(map[string]*Certificate, 0),
+		Certificates:   make(map[string]*Certificate),
 		SSLConfig:      newSSLConfig(),
 		Nginx:          nginxConfig,
 	}, nil
 }
 
-// BuilderConfig encapsulates the configuration of the deis-builder-- if it's in use.
+// BuilderConfig encapsulates the configuration of the drycc-builder-- if it's in use.
 type BuilderConfig struct {
 	ConnectTimeout string `key:"connectTimeout" constraint:"^[1-9]\\d*(ms|[smhdwMy])?$"`
 	TCPTimeout     string `key:"tcpTimeout" constraint:"^[1-9]\\d*(ms|[smhdwMy])?$"`
@@ -307,9 +307,9 @@ func newProxyBuffersConfig(proxyBuffersConfig *ProxyBuffersConfig) (*ProxyBuffer
 // relevant metadata concerning itself and all routable services.
 func Build(kubeClient *kubernetes.Clientset) (*RouterConfig, error) {
 	// Get all relevant information from k8s:
-	//   deis-router deployment
+	//   drycc-router deployment
 	//   All services with label "routable=true"
-	//   deis-builder service, if it exists
+	//   drycc-builder service, if it exists
 	// These are used to construct a model...
 	routerDeployment, err := getDeployment(kubeClient)
 	if err != nil {
@@ -324,11 +324,11 @@ func Build(kubeClient *kubernetes.Clientset) (*RouterConfig, error) {
 	if err != nil {
 		return nil, err
 	}
-	platformCertSecret, err := getSecret(kubeClient, "deis-router-platform-cert", namespace)
+	platformCertSecret, err := getSecret(kubeClient, "drycc-router-platform-cert", namespace)
 	if err != nil {
 		return nil, err
 	}
-	dhParamSecret, err := getSecret(kubeClient, "deis-router-dhparam", namespace)
+	dhParamSecret, err := getSecret(kubeClient, "drycc-router-dhparam", namespace)
 	if err != nil {
 		return nil, err
 	}
@@ -341,7 +341,7 @@ func Build(kubeClient *kubernetes.Clientset) (*RouterConfig, error) {
 }
 
 func getDeployment(kubeClient *kubernetes.Clientset) (*v1beta1ext.Deployment, error) {
-	deployment, err := kubeClient.Extensions().Deployments(namespace).Get("deis-router")
+	deployment, err := kubeClient.Extensions().Deployments(namespace).Get("drycc-router")
 	if err != nil {
 		return nil, err
 	}
@@ -357,14 +357,14 @@ func getAppServices(kubeClient *kubernetes.Clientset) (*v1.ServiceList, error) {
 	return services, nil
 }
 
-// getBuilderService will return the service named "deis-builder" from the same namespace as
+// getBuilderService will return the service named "drycc-builder" from the same namespace as
 // the router, but will return nil (without error) if no such service exists.
 func getBuilderService(kubeClient *kubernetes.Clientset) (*v1.Service, error) {
 	serviceClient := kubeClient.Services(namespace)
-	service, err := serviceClient.Get("deis-builder")
+	service, err := serviceClient.Get("drycc-builder")
 	if err != nil {
 		statusErr, ok := err.(*errors.StatusError)
-		// If the issue is just that no deis-builder was found, that's ok.
+		// If the issue is just that no drycc-builder was found, that's ok.
 		if ok && statusErr.Status().Code == 404 {
 			// We'll just return nil instead of a found *api.Service.
 			return nil, nil
@@ -436,7 +436,7 @@ func linkLocations(appConfigs []*AppConfig) error {
 		if app.ProxyDomain != "" && len(app.ProxyLocations) > 0 {
 			targetApp := appByDomain(appConfigs, app.ProxyDomain)
 			if targetApp == nil {
-				return goerrors.New(fmt.Sprintf("Can't find ProxyDomain '%s' in any application", app.ProxyDomain))
+				return fmt.Errorf("can't find ProxyDomain '%s' in any application", app.ProxyDomain)
 			}
 
 			for _, loc := range app.ProxyLocations {
@@ -493,7 +493,7 @@ func buildAppConfig(kubeClient *kubernetes.Clientset, service v1.Service, router
 		appConfig.Name = service.Name
 	}
 	// if app name and Namespace are not same then combine the two as it
-	// makes deis services (as an example) clearer, such as deis/controller
+	// makes drycc services (as an example) clearer, such as drycc/controller
 	if appConfig.Name != service.Namespace {
 		appConfig.Name = service.Namespace + "/" + appConfig.Name
 	}

@@ -1,4 +1,4 @@
-FROM quay.io/deis/base:v0.3.6
+FROM quay.io/drycc/base:v0.3.6
 
 RUN adduser --system \
 	--shell /bin/bash \
@@ -48,7 +48,7 @@ RUN buildDeps='gcc make apt-utils libgeoip-dev libssl-dev libpcre3-dev'; \
     # include tcell dynamic nginx module
     mkdir "$PREFIX/modules" && \
     cd "$PREFIX/modules" && \
-    get_src 8f30a4d5f4a65e1a94c367b98cfec33e727453a7e7ffc7e85094a0e7a561f72d "https://s3.amazonaws.com/hephy-artifacts/hephy-router/nginx_tcellagent-1.1.0-agentonly-zuora-linux-x86_64.tar.gz" && \
+    get_src 8f30a4d5f4a65e1a94c367b98cfec33e727453a7e7ffc7e85094a0e7a561f72d "https://s3.amazonaws.com/drycc-artifacts/drycc-router/nginx_tcellagent-1.1.0-agentonly-zuora-linux-x86_64.tar.gz" && \
     mv "$PREFIX/modules/nginx_tcellagent-1.1.0-agentonly-zuora-linux-x86_64/ubuntu/xenial/nginx-1.13.7-custom_flags_ssl_1.0.2g/ngx_http_tcell_agent_module.so" . && \
     rm -rf "$PREFIX/modules/nginx_tcellagent-1.1.0-agentonly-zuora-linux-x86_64" && \
     # include libmodsecurity3 and modsecurity connector dynamic module
@@ -56,13 +56,13 @@ RUN buildDeps='gcc make apt-utils libgeoip-dev libssl-dev libpcre3-dev'; \
     apt-get install -y --no-install-recommends \
         $modsecurityDeps && \
     cd "$PREFIX/modules" && \
-    get_src 136e0faf4b313817abd07365935ebd9174e8754700fe8a06281dbcbbe6d0ad50 "https://s3.amazonaws.com/hephy-artifacts/hephy-router/modsecurity-v3.0.3-ubuntu-16-04.tar.gz" && \
+    get_src 136e0faf4b313817abd07365935ebd9174e8754700fe8a06281dbcbbe6d0ad50 "https://s3.amazonaws.com/drycc-artifacts/drycc-router/modsecurity-v3.0.3-ubuntu-16-04.tar.gz" && \
     mv usr/local/modsecurity /usr/local/modsecurity && \
     rm -rf usr && \
-    get_src_file c9fd4ddb69ba1ce0a3118e529c43f87c3ab216e20900e25863e58537399d2d19 "https://s3.amazonaws.com/hephy-artifacts/hephy-router/ngx_http_modsecurity_module.so" && \
+    get_src_file c9fd4ddb69ba1ce0a3118e529c43f87c3ab216e20900e25863e58537399d2d19 "https://s3.amazonaws.com/drycc-artifacts/drycc-router/ngx_http_modsecurity_module.so" && \
     # setup the modsecurity config and OWASP rules
     cd "$PREFIX/conf" && \
-    get_src_file 5614fd0f68fc7707c0dc008d45b92de586b6e14937a41b93e80165aec454eecd "https://s3.amazonaws.com/hephy-artifacts/hephy-router/modsecurity.conf" && \
+    get_src_file 5614fd0f68fc7707c0dc008d45b92de586b6e14937a41b93e80165aec454eecd "https://s3.amazonaws.com/drycc-artifacts/drycc-router/modsecurity.conf" && \
     curl -sSL https://github.com/SpiderLabs/ModSecurity/raw/v3/master/unicode.mapping -o unicode.mapping && \
     git clone https://github.com/SpiderLabs/owasp-modsecurity-crs.git && \
     cp -R owasp-modsecurity-crs/rules/ $PREFIX/conf/ && \

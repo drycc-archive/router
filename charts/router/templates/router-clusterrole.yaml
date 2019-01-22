@@ -3,10 +3,10 @@
 kind: ClusterRole
 apiVersion: {{ template "rbacAPIVersion" . }}
 metadata:
-  name: deis:deis-router
+  name: drycc:drycc-router
   labels:
-    app: deis-router
-    heritage: deis
+    app: drycc-router
+    heritage: drycc
 rules:
 - apiGroups: [""]
   resources: ["services"]

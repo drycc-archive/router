@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: apache
   labels:
-    router.deis.io/routable: "true"
+    router.drycc.cc/routable: "true"
     app: apache
   annotations:
     # Demonstrates a subdomain of the router's default domain as well as a fully-qualified domain name
-    router.deis.io/domains: apache,httpd.example.com
+    router.drycc.cc/domains: apache,httpd.example.com
 spec:
   ports:
   - port: 80

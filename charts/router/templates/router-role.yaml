@@ -4,9 +4,9 @@ apiVersion: {{ template "rbacAPIVersion" . }}
 kind: Role
 metadata:
   labels:
-    app: deis-router
-    heritage: deis
-  name: deis-router
+    app: drycc-router
+    heritage: drycc
+  name: drycc-router
 rules:
 - apiGroups: ["extensions", "apps"]
   resources: ["deployments"]

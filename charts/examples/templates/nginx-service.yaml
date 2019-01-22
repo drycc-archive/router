@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: nginx
   labels:
-    router.deis.io/routable: "true"
+    router.drycc.cc/routable: "true"
     app: nginx
   annotations:
-    router.deis.io/domains: nginx
+    router.drycc.cc/domains: nginx
 spec:
   ports:
   - port: 80

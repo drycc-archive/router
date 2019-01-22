@@ -12,7 +12,7 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
-	"github.com/deis/router/model"
+	"github.com/drycc/router/model"
 )
 
 func TestWriteCerts(t *testing.T) {
@@ -194,7 +194,7 @@ func checkCertAndKey(crtPath string, keyPath string, expectedCertContents string
 	}
 
 	if !reflect.DeepEqual(expectedCertContents, string(actualCertContents)) {
-		return fmt.Errorf("Expected test.crt contents, %s, does not match actual contents, %s.", expectedCertContents, string(actualCertContents))
+		return fmt.Errorf("expected test.crt contents, %s, does not match actual contents, %s", expectedCertContents, string(actualCertContents))
 	}
 
 	actualKeyContents, err := ioutil.ReadFile(keyPath)
@@ -202,7 +202,7 @@ func checkCertAndKey(crtPath string, keyPath string, expectedCertContents string
 		return err
 	}
 	if !reflect.DeepEqual(expectedKeyContents, string(actualKeyContents)) {
-		return fmt.Errorf("Expected test.key contents, %s, does not match actual contents, %s.", expectedKeyContents, string(actualKeyContents))
+		return fmt.Errorf("expected test.key contents, %s, does not match actual contents, %s", expectedKeyContents, string(actualKeyContents))
 	}
 
 	expectedCertPerm := "-rw-r--r--" // 0644
@@ -211,13 +211,13 @@ func checkCertAndKey(crtPath string, keyPath string, expectedCertContents string
 	crtInfo, _ := os.Stat(crtPath)
 	actualCertPerm := crtInfo.Mode().String()
 	if !reflect.DeepEqual(expectedCertPerm, actualCertPerm) {
-		return fmt.Errorf("Expected permission on test.crt, %s, does not match actual, %s.", expectedCertPerm, actualCertPerm)
+		return fmt.Errorf("expected permission on test.crt, %s, does not match actual, %s", expectedCertPerm, actualCertPerm)
 	}
 
 	keyInfo, _ := os.Stat(keyPath)
 	actualKeyPerm := keyInfo.Mode().String()
 	if !reflect.DeepEqual(expectedKeyPerm, actualKeyPerm) {
-		return fmt.Errorf("Expected permission on test.key, %s, does not match actual, %s.", expectedKeyPerm, actualKeyPerm)
+		return fmt.Errorf("expected permission on test.key, %s, does not match actual, %s", expectedKeyPerm, actualKeyPerm)
 	}
 
 	return nil

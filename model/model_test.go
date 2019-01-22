@@ -10,11 +10,11 @@ import (
 )
 
 const (
-	routerName       = "deis-router"
-	builderName      = "deis-builder"
-	deisNamespace    = "deis"
-	dhParamName      = "deis-router-dhparam"
-	platformCertName = "deis-router-platform-cert"
+	routerName       = "drycc-router"
+	builderName      = "drycc-builder"
+	dryccNamespace   = "drycc"
+	dhParamName      = "drycc-router-dhparam"
+	platformCertName = "drycc-router-platform-cert"
 )
 
 func TestBuildRouterConfig(t *testing.T) {
@@ -23,15 +23,15 @@ func TestBuildRouterConfig(t *testing.T) {
 	routerDeployment := v1beta1.Deployment{
 		ObjectMeta: v1.ObjectMeta{
 			Name:      routerName,
-			Namespace: deisNamespace,
+			Namespace: dryccNamespace,
 			Annotations: map[string]string{
-				"router.deis.io/nginx.defaultTimeout":             "1500s",
-				"router.deis.io/nginx.ssl.bufferSize":             "6k",
-				"router.deis.io/nginx.ssl.hsts.maxAge":            "1234",
-				"router.deis.io/nginx.ssl.hsts.includeSubDomains": "true",
+				"router.drycc.cc/nginx.defaultTimeout":             "1500s",
+				"router.drycc.cc/nginx.ssl.bufferSize":             "6k",
+				"router.drycc.cc/nginx.ssl.hsts.maxAge":            "1234",
+				"router.drycc.cc/nginx.ssl.hsts.includeSubDomains": "true",
 			},
 			Labels: map[string]string{
-				"heritage": "deis",
+				"heritage": "drycc",
 			},
 		},
 		Spec: v1beta1.DeploymentSpec{
@@ -50,7 +50,7 @@ func TestBuildRouterConfig(t *testing.T) {
 				Spec: v1.PodSpec{
 					Containers: []v1.Container{
 						{
-							Image: "deis/router",
+							Image: "drycc/router",
 						},
 					},
 				},
@@ -61,7 +61,7 @@ func TestBuildRouterConfig(t *testing.T) {
 	platformCertSecret := v1.Secret{
 		ObjectMeta: v1.ObjectMeta{
 			Name:      platformCertName,
-			Namespace: deisNamespace,
+			Namespace: dryccNamespace,
 		},
 		Type: v1.SecretTypeOpaque,
 		Data: map[string][]byte{
@@ -73,9 +73,9 @@ func TestBuildRouterConfig(t *testing.T) {
 	dhParamSecret := v1.Secret{
 		ObjectMeta: v1.ObjectMeta{
 			Name:      dhParamName,
-			Namespace: deisNamespace,
+			Namespace: dryccNamespace,
 			Labels: map[string]string{
-				"heritage": "deis",
+				"heritage": "drycc",
 			},
 		},
 		Type: v1.SecretTypeOpaque,
@@ -131,12 +131,12 @@ func TestBuildBuilderConfig(t *testing.T) {
 	builderService := v1.Service{
 		ObjectMeta: v1.ObjectMeta{
 			Name:      builderName,
-			Namespace: deisNamespace,
+			Namespace: dryccNamespace,
 			Labels: map[string]string{
-				"heritage": "deis",
+				"heritage": "drycc",
 			},
 			Annotations: map[string]string{
-				"router.deis.io/nginx.connectTimeout": "20s",
+				"router.drycc.cc/nginx.connectTimeout": "20s",
 			},
 		},
 		Spec: v1.ServiceSpec{
@@ -186,7 +186,7 @@ func TestBuildCertificate(t *testing.T) {
 	validCertSecret := v1.Secret{
 		ObjectMeta: v1.ObjectMeta{
 			Name:      platformCertName,
-			Namespace: deisNamespace,
+			Namespace: dryccNamespace,
 		},
 		Type: v1.SecretTypeOpaque,
 		Data: map[string][]byte{
@@ -212,7 +212,7 @@ func TestBuildCertificate(t *testing.T) {
 	invalidCertSecret := v1.Secret{
 		ObjectMeta: v1.ObjectMeta{
 			Name:      platformCertName,
-			Namespace: deisNamespace,
+			Namespace: dryccNamespace,
 		},
 		Type: v1.SecretTypeOpaque,
 		Data: map[string][]byte{
@@ -236,7 +236,7 @@ func TestBuildDHParam(t *testing.T) {
 	dhParamSecret := v1.Secret{
 		ObjectMeta: v1.ObjectMeta{
 			Name:      dhParamName,
-			Namespace: deisNamespace,
+			Namespace: dryccNamespace,
 		},
 		Type: v1.SecretTypeOpaque,
 		Data: map[string][]byte{
@@ -256,7 +256,7 @@ func TestBuildDHParam(t *testing.T) {
 	invalidDHParamSecret := v1.Secret{
 		ObjectMeta: v1.ObjectMeta{
 			Name:      dhParamName,
-			Namespace: deisNamespace,
+			Namespace: dryccNamespace,
 		},
 		Type: v1.SecretTypeOpaque,
 		Data: map[string][]byte{

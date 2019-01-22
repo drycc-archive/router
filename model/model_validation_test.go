@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	modelerUtility "github.com/deis/router/utils/modeler"
+	modelerUtility "github.com/drycc/router/utils/modeler"
 )
 
 var (
@@ -260,7 +260,7 @@ func TestInvalidCertMappings(t *testing.T) {
 }
 
 func TestValidCertMappings(t *testing.T) {
-	testValidValues(t, newTestAppConfig, "CertMappings", "certificates", []string{"foobar.com:foobar,*.foobar.deis.ninja:foobar-deis-ninja"})
+	testValidValues(t, newTestAppConfig, "CertMappings", "certificates", []string{"foobar.com:foobar,*.foobar.drycc.ninja:foobar-drycc-ninja"})
 }
 
 func TestValidAppReferrerPolicy(t *testing.T) {

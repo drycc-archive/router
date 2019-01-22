@@ -8,7 +8,7 @@ import (
 	"text/template"
 
 	"github.com/Masterminds/sprig"
-	"github.com/deis/router/model"
+	"github.com/drycc/router/model"
 )
 
 const (
@@ -45,7 +45,7 @@ http {
 	{{- end }}
 
 	# The timeout value must be greater than the front facing load balancers timeout value.
-	# Default is the deis recommended timeout value for ELB - 1200 seconds + 100s extra.
+	# Default is the drycc recommended timeout value for ELB - 1200 seconds + 100s extra.
 	keepalive_timeout {{ $routerConfig.DefaultTimeout }};
 
 	types_hash_max_size 2048;
