@@ -1,7 +1,7 @@
 
 # Drycc Router v2
 
-[![Build Status](https://ci.drycc.cc/job/router/badge/icon)](https://ci.drycc.cc/job/router)
+[![Build Status](https://travis-ci.org/drycc/router.svg?branch=master)](https://travis-ci.org/drycc/router)
 [![codecov.io](https://codecov.io/github/drycc/router/coverage.svg?branch=master)](https://codecov.io/github/drycc/router?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/drycc/router)](https://goreportcard.com/report/github.com/drycc/router)
 [![Docker Repository on Quay](https://quay.io/repository/drycc/router/status "Docker Repository on Quay")](https://quay.io/repository/drycc/router)
