@@ -11,20 +11,32 @@ metadata:
   labels:
     heritage: drycc
 spec:
-  type: {{ default "LoadBalancer" .Values.service_type}}
+  type: {{ default "LoadBalancer" .Values.service.type}}
   selector:
     app: drycc-router
   ports:
     - name: http
       port: 80
       targetPort: 8080
+      {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.http))) }}
+      nodePort: {{ .Values.service.nodePort.http }}
+      {{- end }}
     - name: https
       port: 443
       targetPort: 6443
+      {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.https))) }}
+      nodePort: {{ .Values.service.nodePort.https }}
+      {{- end }}
     - name: builder
       port: 2222
       targetPort: 2222
+      {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.builder))) }}
+      nodePort: {{ .Values.service.nodePort.builder }}
+      {{- end }}
     - name: healthz
       port: 9090
       targetPort: 9090
+      {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.healthz))) }}
+      nodePort: {{ .Values.service.nodePort.healthz }}
+      {{- end }}
 {{ end }}{{/* if not .Values.global.experimental_native_ingress */}}

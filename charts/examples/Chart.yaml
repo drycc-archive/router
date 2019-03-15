@@ -1,7 +1,0 @@
-name: examples
-home: https://github.com/drycc/router
-version: <Will be populated by the ci before publishing the chart>
-description: Standalone examples for Drycc Router.
-maintainers:
-  - name: Drycc Team
-    email: engineering@drycc.com

@@ -61,22 +61,14 @@ spec:
             fieldRef:
               fieldPath: metadata.namespace
         ports:
-        - containerPort: 8080
-{{- if .Values.host_port.enabled }}
-          hostPort: 80
-{{- end }}
-        - containerPort: 6443
-{{- if .Values.host_port.enabled }}
-          hostPort: 443
-{{- end }}
-        - containerPort: 2222
-{{- if .Values.host_port.enabled }}
-          hostPort: 2222
-{{- end }}
-        - containerPort: 9090
-{{- if .Values.host_port.enabled }}
-          hostPort: 9090
-{{- end }}
+        - name: http
+          containerPort: 8080
+        - name: https
+          containerPort: 6443
+        - name: builder
+          containerPort: 2222
+        - name: healthz
+          containerPort: 9090
         livenessProbe:
           httpGet:
             path: /healthz
