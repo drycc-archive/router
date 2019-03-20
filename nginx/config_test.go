@@ -183,7 +183,7 @@ func TestWriteConfig(t *testing.T) {
 	WriteConfig(&routerConfig, tmpFile.Name())
 
 	if _, err := os.Stat(tmpFile.Name()); os.IsNotExist(err) {
-		t.Errorf("Expected to find nginx config file. No file found.")
+		t.Errorf("Expected to find nginx config file. No file found")
 	}
 }
 
