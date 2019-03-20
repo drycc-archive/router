@@ -36,6 +36,6 @@ global:
   # Valid values are:
   # - true: The Drycc router will NOT be deployed. Inherently workflow will not be usable until a Kubernetes ingress controller is installed.
   # - false: The default mode, and the default behavior of Drycc workflow.
-  use_native_ingress: false
+  use_ingress: false
   # Role-Based Access Control for Kubernetes >= 1.5
   use_rbac: false
