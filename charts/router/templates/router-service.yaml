@@ -1,4 +1,4 @@
-{{- if not .Values.ingress.enabled }}
+{{- if (eq .Values.global.ingress_class "") }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -39,4 +39,4 @@ spec:
       {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.healthz))) }}
       nodePort: {{ .Values.service.nodePort.healthz }}
       {{- end }}
-{{ end }}{{/* if not .Values.ingress.enabled */}}
+{{ end }}
