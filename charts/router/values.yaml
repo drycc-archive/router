@@ -31,11 +31,12 @@ service:
     healthz: ""
 
 global:
-  # Experimental feature to toggle using kubernetes ingress instead of the Drycc router.
+  use_rbac: false
+
+ingress:
+  # Experimental feature to use Kubernetes ingress instead of Workflow's drycc-router.
   #
   # Valid values are:
-  # - true: The Drycc router will NOT be deployed. Inherently workflow will not be usable until a Kubernetes ingress controller is installed.
-  # - false: The default mode, and the default behavior of Drycc workflow.
-  use_ingress: false
-  # Role-Based Access Control for Kubernetes >= 1.5
-  use_rbac: false
+  # - true: drycc-router will not be deployed. Workflow will not be usable until a Kubernetes ingress controller is installed.
+  # - false: drycc-router will be deployed (default).
+  enabled: false

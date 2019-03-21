@@ -1,4 +1,4 @@
-{{- if not .Values.global.use_ingress }}
+{{- if not .Values.ingress.enabled }}
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -81,4 +81,4 @@ spec:
             port: 9090
           initialDelaySeconds: 1
           timeoutSeconds: 1
-{{ end }}{{/* if not .Values.global.use_ingress */}}
+{{ end }}{{/* if not .Values.ingress.enabled */}}
