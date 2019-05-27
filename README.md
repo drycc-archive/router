@@ -1,5 +1,7 @@
+# Router
 
-# Drycc Router v2
+|![](https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Warning.svg/156px-Warning.svg.png) | Starting with workflow v1.1.0, we replaced it with native k8s ingress, so this project is not being maintained. |
+|---|---|
 
 [![Build Status](https://travis-ci.org/drycc/router.svg?branch=master)](https://travis-ci.org/drycc/router)
 [![codecov.io](https://codecov.io/github/drycc/router/coverage.svg?branch=master)](https://codecov.io/github/drycc/router?branch=master)
